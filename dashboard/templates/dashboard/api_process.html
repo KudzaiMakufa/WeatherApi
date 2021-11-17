@@ -1,0 +1,66 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+  <div class="col-12">
+      
+      <!-- <a href="#" class="btn btn-success float-right"></a> -->
+   
+  </div>
+</div>
+    <div class="row">
+        <div class="col-md-12">
+          <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                
+            <tbody>
+             
+              <tr>
+                <td><b>Date</b></td>
+                <td><b>Feels Like   </b> </td>
+                <td><b>Av Temp   </b> </td>
+                <td><b>Av Max Temp   </b> </td>
+                <td><b>Av Min Temp   </b> </td>
+                <td><b>Pressure   </b> </td>
+                <td><b>Sea Level   </b> </td>
+                <td><b>Ground Level   </b> </td>
+                <td><b>Humidity</b> </td>
+         
+                <td><b>Wind Speed   </b> </td>
+                {% comment %} <td>
+                    <a href="{{item.library_list.path}}">{{item.application_name}}</a>
+                    </td> {% endcomment %}
+              </tr>
+
+              {% for item in data %}
+                        <tr>
+                                     <td>{{item.dt_txt}}</td>
+                                  <td>{{item.main.feels_like}}</td>
+                                  <td>{{item.main.temp}}</td>
+                                  <td>{{item.main.temp_max}}</td>
+                                  <td>{{item.main.temp_min}}</td>
+                                  <td>{{item.main.pressure}}</td>
+                                  <td>{{item.main.sea_level}}</td>
+                                   <td>{{item.main.grnd_level}}</td>
+                                  
+                                  <td>{{item.main.humidity}}</td>
+                                  
+                                
+                                  <td>{{item.wind.speed}}</td>
+                                
+                               
+         
+                        </tr>
+                    {% endfor %}
+    
+
+            </tbody>
+          </table>
+        </div>
+       
+      </div>
+
+
+
+  {% endblock %}
