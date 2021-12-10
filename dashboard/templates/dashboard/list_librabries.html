@@ -62,10 +62,13 @@
                         
                             <td>
                                 {% if item.data_mode == 'api' %}
-                                <a href="{% url  'dashboard:process_data' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >View API  Data</a>
+                                <a href="{% url  'dashboard:view_data' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >View API  Data</a>
+                                {% elif item.data_mode == 'text' %}
+                                    {% comment %} <a href="{% url  'dashboard:process_data' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >Process Data</a> {% endcomment %}
+                                
                                 {% else %}
                                     <a href="{% url  'dashboard:lib_scan' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >View Contents</a>
-                                    <a href="{% url  'dashboard:process_data' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >Process Data</a>
+                                    {% comment %} <a href="{% url  'dashboard:process_data' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >Process Data</a> {% endcomment %}
                                 {% endif %}
                                 
                                 

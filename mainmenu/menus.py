@@ -31,6 +31,11 @@ MENUS = {
                     "url": "dashboard:index",     
                     
                 },
+                {
+                    "name": "Process Data",
+                    "url": "dashboard:process_data",     
+                    
+                },
                
               
                
