@@ -14,11 +14,14 @@ import vulners
 from django.core.mail import send_mail
 import random
 import pandas as pd
+import pickle
 import requests
 import json
 import csv
 from django.conf import settings
 from time import sleep
+
+from weatherhadoop.settings import MEDIA_ROOT
 
 
 
@@ -125,7 +128,116 @@ def view_data(request , lib_id=None):
        
     }
     return render(request, "dashboard/api_process.html", context)
+
+
+@login_required
+def map_data(request):
+    # library = Library.objects.get(id=lib_id)
+
+    csv_file = Library.objects.get(data_mode="csv")
+
+    title = "Mapping Uploaded Data"
     
+    data = []
+    csv_file.library_list.path
+    # if library.data_mode  == "csv":
+    data = pd.read_csv(csv_file.library_list.path)
+
+    #Slicing Data
+    slice1 = data.iloc[0:399,:]
+    slice2 = data.iloc[400:800,:]
+    slice3 = data.iloc[801:1200,:]
+    slice4 = data.iloc[1201:,:]
+
+   
+    def mapper(data):
+        
+        mapped = []
+        
+        for index,row in data.iterrows():
+           
+            mapped.append((row['Data.Temperature.Max Temp'],row['Data.Temperature.Avg Temp']))
+         
+        return mapped
+
+
+    map1 = mapper(slice1)
+    map2 = mapper(slice2)
+    map3 = mapper(slice3)
+    map4 = mapper(slice4)
+
+    shuffled = {
+        3.0: [],
+        4.0: [],
+        5.0: [],
+        6.0: [],
+        7.0: [],
+        8.0: [],
+        
+    }
+
+    try:
+        for i in [map1,map2,map3,map4]:
+            for j in i:
+                shuffled[j[0]].append(j[1])
+    except:
+        pass
+    filename = MEDIA_ROOT+"/"+csv_file.application_name+' shuffled.pkl'
+    file= open(filename,'ab')
+    pickle.dump(shuffled,file)
+    file.close()
+
+ 
+    context = {
+        # "item":library,
+        "file_id":csv_file.application_name+' shuffled.pkl' ,
+        "section":"mapper",
+        "title":title
+       
+    }
+    # sleep(6)
+    messages.add_message(request, messages.INFO, 'Data has been mapped and serialized in folder in '+filename+' \n Please proceed to reduce data')
+    return render(request, "dashboard/merge.html", context)
+@login_required
+
+
+@login_required
+def reduce_data(request , file_id=None):
+    import pickle
+
+    file= open(MEDIA_ROOT+"/"+file_id,'rb')
+
+    print(file)
+    shuffled = pickle.load(file)
+
+    def reduce(shuffled_dict):
+        reduced = {}
+        
+        for i in shuffled_dict: 
+            # print(sum(shuffled_dict[i]))
+            reduced[i] = sum(shuffled_dict[i])/len(shuffled_dict[i])
+            pass
+        return reduced
+
+
+    final = reduce(shuffled)
+
+    
+    for i in final:
+
+        print(i,':',final[i])
+
+    context = {
+        # "item":library,
+        # "data":data ,
+        "section":"reducer",
+        "title":"Reduce Functinality"
+       
+    }
+    # sleep(6)
+    messages.add_message(request, messages.INFO, 'Reduce Functioanlity successfully executed based on different dataset slices')
+    return render(request, "dashboard/merge.html", context)
+        
 @login_required
 def process_data(request):
     # library = Library.objects.get(id=lib_id)
