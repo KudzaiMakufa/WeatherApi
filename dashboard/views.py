@@ -132,12 +132,8 @@ def view_data(request , lib_id=None):
 
 @login_required
 def map_data(request):
-    # library = Library.objects.get(id=lib_id)
-
     csv_file = Library.objects.get(data_mode="csv")
-
-    title = "Mapping Uploaded Data"
-    
+    title = "Mapping Uploaded Data"  
     data = []
     csv_file.library_list.path
     # if library.data_mode  == "csv":
@@ -148,19 +144,11 @@ def map_data(request):
     slice2 = data.iloc[400:800,:]
     slice3 = data.iloc[801:1200,:]
     slice4 = data.iloc[1201:,:]
-
-   
     def mapper(data):
-        
         mapped = []
-        
         for index,row in data.iterrows():
-           
-            mapped.append((row['Data.Temperature.Max Temp'],row['Data.Temperature.Avg Temp']))
-         
+            mapped.append((row['Data.Temperature.Max Temp'],row['Data.Temperature.Avg Temp'] ))
         return mapped
-
-
     map1 = mapper(slice1)
     map2 = mapper(slice2)
     map3 = mapper(slice3)
@@ -189,7 +177,6 @@ def map_data(request):
 
  
     context = {
-        # "item":library,
         "file_id":csv_file.application_name+' shuffled.pkl' ,
         "section":"mapper",
         "title":title
