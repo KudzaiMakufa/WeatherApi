@@ -262,6 +262,7 @@ def process_data(request):
         with open(csv_file.library_list.path, "r") as my_input_file:
             [ my_output_file.write(" ".join(row)+'\n') for row in csv.reader(my_input_file)]
         my_output_file.close()
+    
     # open the new file and append txt file 
 
 
