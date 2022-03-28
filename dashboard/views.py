@@ -139,11 +139,14 @@ def map_data(request):
     # if library.data_mode  == "csv":
     data = pd.read_csv(csv_file.library_list.path)
 
+    print("1111111111+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     #Slicing Data
     slice1 = data.iloc[0:399,:]
     slice2 = data.iloc[400:800,:]
     slice3 = data.iloc[801:1200,:]
     slice4 = data.iloc[1201:,:]
+
+    print("22222222222+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     def mapper(data):
         mapped = []
         for index,row in data.iterrows():
@@ -164,12 +167,15 @@ def map_data(request):
         
     }
 
+    print("3333333333333+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     try:
         for i in [map1,map2,map3,map4]:
             for j in i:
                 shuffled[j[0]].append(j[1])
     except:
         pass
+
+
     filename = MEDIA_ROOT+"/"+csv_file.application_name+' shuffled.pkl'
     file= open(filename,'ab')
     pickle.dump(shuffled,file)
@@ -200,19 +206,24 @@ def reduce_data(request , file_id=None):
     def reduce(shuffled_dict):
         reduced = {}
         
-        for i in shuffled_dict: 
-            # print(sum(shuffled_dict[i]))
-            reduced[i] = sum(shuffled_dict[i])/len(shuffled_dict[i])
+        try:
+            for i in shuffled_dict: 
+           
+                reduced[i] = sum(shuffled_dict[i])/len(shuffled_dict[i])
+                pass
+            return reduced
+        except:
             pass
-        return reduced
 
 
     final = reduce(shuffled)
 
-    
-    for i in final:
+    try:
+        for i in final:
 
-        print(i,':',final[i])
+            print(i,':',final[i])
+    except:
+            pass
 
     context = {
         # "item":library,
