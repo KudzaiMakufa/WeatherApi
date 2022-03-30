@@ -21,8 +21,8 @@ def home_login(request):
       if(user is not None ):
         if(user.last_login == None):
           login(request , user)
-          messages.add_message(request, messages.INFO, "Change your password!!")
-          return redirect('/home/profile')
+          # messages.add_message(request, messages.INFO, "Change your password!!")
+          # return redirect('/home/profile')
         else:
           login(request , user)
           return redirect('/dashboard/libraries')

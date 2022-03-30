@@ -8,8 +8,10 @@ urlpatterns = [
     path('process_data', views.process_data , name="process_data"),
     path('map_data', views.map_data , name="map_data"),
     path('reduce_data/<str:file_id>', views.reduce_data , name="reduce_data"),
+    path('read_contents/<str:file_name>', views.read_contents , name="read_contents"),
     path('view_data/<int:lib_id>', views.view_data , name="view_data"),
     path('delete_librabry/<int:librabry_id>', views.delete_librabry , name="delete_librabry"),
+    
   
     
    

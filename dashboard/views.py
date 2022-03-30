@@ -1,3 +1,4 @@
+from fileinput import filename
 from django.shortcuts import render
 import calendar
 from datetime import datetime
@@ -20,6 +21,8 @@ import json
 import csv
 from django.conf import settings
 from time import sleep
+import shutil
+from datetime import datetime
 
 from weatherhadoop.settings import MEDIA_ROOT
 
@@ -69,6 +72,7 @@ def dashboard_libraries(request):
     #     ['kmakufa@outlook.com', 'promiseksystems@gmail.com'],
     #     fail_silently=False,
     # )
+
     context = {
         
         'title': "DATA FILES",
@@ -188,7 +192,7 @@ def map_data(request):
         "title":title
        
     }
-    # sleep(6)
+    sleep(15)
     messages.add_message(request, messages.INFO, 'Data has been mapped and serialized in folder in '+filename+' \n Please proceed to reduce data')
     return render(request, "dashboard/merge.html", context)
 @login_required
@@ -220,7 +224,7 @@ def reduce_data(request , file_id=None):
 
     try:
         for i in final:
-
+            
             print(i,':',final[i])
     except:
             pass
@@ -229,11 +233,11 @@ def reduce_data(request , file_id=None):
         # "item":library,
         # "data":data ,
         "section":"reducer",
-        "title":"Reduce Functinality"
+        "title":"Reduce Functionality"
        
     }
-    # sleep(6)
-    messages.add_message(request, messages.INFO, 'Reduce Functioanlity successfully executed based on different dataset slices')
+    sleep(25)
+    messages.add_message(request, messages.INFO, 'Reduce Functionality successfully executed based on different dataset slices')
     return render(request, "dashboard/merge.html", context)
         
 @login_required
@@ -241,12 +245,11 @@ def process_data(request):
     # library = Library.objects.get(id=lib_id)
 
     csv_file = Library.objects.get(data_mode="csv")
-
+    text_file =  Library.objects.get(data_mode="text")
     title = ""
     
     data = []
     print()
-
     # merge data from csv
 
     # if library.data_mode  == "text":
@@ -256,13 +259,31 @@ def process_data(request):
 
     # if library.data_mode  == "csv":
     #     f = open(library.library_list.path, "r")
-      
+    
+
+
+
     # convert csv file to text 
     with open(settings.HADOOP_ROOT+"/merged_file.txt", "w") as my_output_file:
         with open(csv_file.library_list.path, "r") as my_input_file:
             [ my_output_file.write(" ".join(row)+'\n') for row in csv.reader(my_input_file)]
         my_output_file.close()
+
     
+    text_file_from_csv = settings.HADOOP_ROOT+"/merged_file.txt"
+    text_file_data = text_file.library_list.path
+    final_name ="merged_file__"+datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+".SMF"
+    with open( settings.HADOOP_ROOT+"/"+final_name, "wb") as wfd:
+        for f in [text_file_from_csv,text_file_data]:
+            with open(f,'rb') as fd:
+                shutil.copyfileobj(fd, wfd)
+
+
+    # pass data to front 
+    
+
+
+     
     # open the new file and append txt file 
 
 
@@ -282,13 +303,33 @@ def process_data(request):
     #         print("error loading info")
     #     title = "Pulling 5 Day data focused for Harare before Hadoop implementation   "
     context = {
+        'file_name': final_name,
+        "section":"processor",
         # "item":library,
         # "data":data ,
         # "title":title
        
     }
+
     sleep(6)
-    messages.add_message(request, messages.INFO, 'Merge successful ,  file store in '+settings.HADOOP_ROOT+"/merged_file.txt")
+    messages.add_message(request, messages.INFO, 'Merge successful ,  file store in '+final_name)
+    return render(request, "dashboard/merge.html", context)
+@login_required
+def read_contents(request , file_name = None):
+
+    f = open(settings.HADOOP_ROOT+"/"+file_name, 'r')
+    file_content = f.read()
+    f.close()
+
+
+    context = {
+            'file_content': file_content,
+            "section":"merged_data_viewer",
+
+        
+        }
+
+    messages.add_message(request, messages.INFO, 'Merged Abstract data ')
     return render(request, "dashboard/merge.html", context)
 @login_required
 def delete_librabry(request ,librabry_id=None):

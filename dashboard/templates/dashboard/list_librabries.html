@@ -72,7 +72,7 @@
                                 {% endif %}
                                 
                                 
-                                <a href="#" class="btn btn-outline-success waves-effect waves-light" >Edit</a>
+                                {% comment %} <a href="#" class="btn btn-outline-success waves-effect waves-light" >Edit</a> {% endcomment %}
                                 <a href="{% url  'dashboard:delete_librabry' item.id %}" class="btn btn-outline-danger waves-effect waves-light" onclick="alert('Are you sure you want to delete')" >Delete</a>
                                
                             </td>
