@@ -6367,12 +6367,12 @@ Data.Precipitation Date.Full Date.Month Date.Week of Date.Year Station.City Stat
 0.0 2016-09-11 9 11 2016 Sandberg SDB Sandberg, CA California 75 87 62 24 8.12
 0.0 2016-09-11 9 11 2016 Santa Barbara SBA Santa Barbara, CA California 63 71 56 21 3.04
 0.0 2016-09-11 9 11 2016 Santa Maria SMX Santa Maria, CA California 62 72 52 31 4.44
-0.0 2016-09-11 9 11 2016 Stockton SCK Stockton, CA California 73 91 55 31 5.17
-0.0 2016-10-02 10 2 2016 Winslow INW Winslow, AZ Arizona 64 80 48 16 4.9
-0.0 2016-10-02 10 2 2016 Fort Smith FSM Fort Smith, AR Arkansas 68 83 52 20 1.55
-0.0 2016-10-02 10 2 2016 Harrison HRO Harrison, AR Arkansas 64 78 50 31 1.5
-0.0 2016-10-02 10 2 2016 North Little Rock LZK North Little Rock, AR Arkansas 69 79 58 0 0.0
-0.15 2017-01-01 1 1 2017 Milwaukee MKE Milwaukee, WI Wisconsin 31 38 23 25 10.98
+SCK Stockton CA California
+Winslow INW Winslow AZ Arizona
+Fort Smith FSM Fort Smith
+Harrison HRO Harrison Arkansas
+North Little Rock LZK North Little Rock AR Arkansas
+Milwaukee MKE Milwaukee WI Wisconsin
 Casper CPR Casper Cheyenne CYS Cheyenne, WY Wyoming 
 Lander LND Lander Rawlins RWL Rawlins WY Wyoming 
 0.1 Kotzebue Nome Sheridan SHR Sheridan, Wyoming  Beckley Virginia Huntington Harare
